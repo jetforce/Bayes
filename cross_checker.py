@@ -41,6 +41,8 @@ def check(inside_folder):
 	cnt = 0
 
 	text_file = open('results/errors'+inside_folder+'.txt', 'w')
+	super_results = open('results/super'+inside_folder+'.csv', 'w',newline='')
+	super_writer = csv.writer(super_results,delimiter=",")
 
 	filename ='./lemm_stop/'+inside_folder
 
@@ -83,20 +85,21 @@ def check(inside_folder):
 		cnt += 1
 
 		writer.writerow([test, isSpam, correctness, s_prob, ns_prob])
+	super_writer.writerow(["folder","spam count","not spam count", "Correct","Errors","Total","Correct Percent"])
+	super_writer.writerow([inside_folder,spam,notspam,correct,cnt-correct,cnt,round((correct/cnt)*100), 2])
 	print('Folder: ', inside_folder)
 	print('Spam Count:', spam)
 	print('Not Spam Count:', notspam)
 	print('Correct:', correct)
 	print('Errors:', cnt-correct)
 	print('Total:', cnt)
-
 	print('Correct Percent:', round(((correct/cnt)*100), 2), '%')
 
 	f1.close()
 	f2.close()
 	f3.close()
 	text_file.close()
-
+	super_results.close()
 
 def start():
 	path = './lemm_stop'
